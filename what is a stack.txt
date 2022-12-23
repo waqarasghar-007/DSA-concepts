@@ -1,0 +1,4 @@
+Important reading about stack:
+
+
+https://www.simplilearn.com/tutorials/data-structure-tutorial/stacks-in-data-structures#:~:text=It%20means%20insertion%20and%20deletion,stack%20is%20termed%20pop%20operation. 
