@@ -74,6 +74,20 @@ public:
 			cout << "Empty stack \n";
 		}
 	}
+	T peek()
+	{
+		T temp;
+		if (!isEmpty())
+		{
+			temp = ptr[top - 1];
+			return temp;
+
+		}
+		else
+		{
+			cout << "Empty stack \n";
+		}
+	}
 	void display()
 	{
 		if (!isEmpty())
@@ -94,17 +108,21 @@ int main()
 {
 	stack<int> s1;
 	s1.display();
+	cout << endl;
 	s1.push(1);
 	s1.push(3);
 	s1.push(2);
+	cout << "peek value : " << s1.peek() << endl;
 	s1.display();
+	cout << endl;
 	cout << "popped : " << s1.pop() <<endl;
 	s1.display();
+	cout << endl;
 	s1.push(3);
 	s1.push(2);
 	s1.display();
-
-
+	cout << endl;
+	cout << "peek value : " << s1.peek() << endl;
 	system("pause");
 	return 0;
 }
