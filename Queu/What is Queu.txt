@@ -1,0 +1,4 @@
+Important reading about queu in data structures and algorithms:
+
+
+https://www.simplilearn.com/tutorials/data-structure-tutorial/queue-in-data-structure#:~:text=The%20queue%20in%20the%20data,wait%2Dup%20line%20for%20tickets.&text=A%20queue%20can%20be%20implemented,lists%2C%20Pointers%2C%20and%20Structures. 
