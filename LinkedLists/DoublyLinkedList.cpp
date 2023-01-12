@@ -232,6 +232,49 @@ public:
 			tail = newNode;
 		}
 	}
+	void insertAfter(int key, int data)
+	{
+		if (!isEmpty())
+		{
+			if (search(key))
+			{
+				Node* newNode = new Node(data);
+				Node* traverse = head;
+				while (traverse != NULL)
+				{
+					if (traverse->getData() == key && traverse==tail)
+					{
+						insetAtEnd(data);
+						break;
+					}
+					else if (traverse->getData() == key)
+					{
+						traverse->getNext()->setPrevious(newNode);
+						newNode->setNext(traverse->getNext());
+						traverse->setNext(newNode);
+						newNode->setPrevious(traverse);
+						break;
+					}
+					else
+					{
+						
+						traverse = traverse->getNext();
+					}
+					
+
+				}
+			}
+			else
+			{
+				cout << key << " does not exist inside \n";
+			}
+
+		}
+		else
+		{
+			cout << key << " does not exist \n";
+		}
+	}
 	bool isEmpty()
 	{
 		if (head->getNext() == NULL)
@@ -258,9 +301,20 @@ public:
 		}
 		
 	}
+	Node* getHead()
+	{
+		return head;
+	}
 
 };
-
+void rDisplay(Node* temp)
+{
+	if (temp == NULL)
+		return;
+	cout << temp->getData() << " , ";
+	rDisplay(temp->getNext());
+	
+}
 int main()
 {
 	//insertion
@@ -281,6 +335,12 @@ int main()
 	//list.display();
 	//list.insetAtEnd(5000);
 	//list.display();
+	list.insertAfter(3, 48);
+	rDisplay(list.getHead());
+	cout << endl;
+	list.insertAfter(12, 480);
+	rDisplay(list.getHead());
+	cout << endl;
 	system("pause");
 	return 0;
 }
