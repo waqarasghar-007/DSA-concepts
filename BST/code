@@ -1,0 +1,109 @@
+#include <iostream>
+using namespace std;
+
+class Node
+{
+private:
+	int data;
+	Node* right;
+	Node* left;
+public:
+	Node()
+	{
+		data = 0;
+		left = right = NULL;
+	}
+	Node(int data)
+	{
+		this->data = data;
+		left = right = NULL;
+	}
+	void setData(int data)
+	{
+		this->data = data;
+	}
+	void setRight(Node *right)
+	{
+		this->right = right;
+	}
+	void setLeft(Node* left)
+	{
+		this->left = left;
+	}
+	int getData()
+	{
+		return data;
+	}
+	Node* getRight()
+	{
+		return right;
+	}
+	Node* getLeft()
+	{
+		return left;
+	}
+};
+
+
+class BST
+{
+private:
+	Node* root;
+public:
+	BST()
+	{
+		root = NULL;
+	}
+	void addRoot(int data)
+	{
+		if (root != NULL)
+		{
+			cout << "Root already Exists \n";
+		}
+		else
+		{
+			root = new Node(data);
+
+		}
+	}
+	void insert(int data)
+	{
+		Node* temp = new Node(data);
+		Node* traverse = root;
+		while (traverse != NULL)
+		{
+			if (traverse->getData() > data)
+			{
+
+			}
+		}
+		
+	}
+	void addRightChild(int data)
+	{
+		
+	}
+	void addLeftChild(int data)
+	void display()
+	{
+		if (root == NULL)
+		{
+			cout << "Empty tree \n";
+		}
+		else
+		{
+			
+		}
+	}
+};
+
+int main()
+{
+	BST t1;
+	t1.addRoot(1);
+	t1.insert(2);
+	t1.display();
+
+	system("pause");
+	return 0;
+}
