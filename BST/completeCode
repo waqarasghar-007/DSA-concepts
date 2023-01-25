@@ -1,0 +1,374 @@
+#include <iostream>
+using namespace std;
+
+class Node
+{
+private:
+	int data;
+	Node* right;
+	Node* left;
+public:
+	Node()
+	{
+		data = 0;
+		left = right = NULL;
+	}
+	Node(int data)
+	{
+		this->data = data;
+		left = right = NULL;
+	}
+	void setData(int data)
+	{
+		this->data = data;
+	}
+	void setRight(Node *right)
+	{
+		this->right = right;
+	}
+	void setLeft(Node* left)
+	{
+		this->left = left;
+	}
+	int getData()
+	{
+		return data;
+	}
+	Node* getRight()
+	{
+		return right;
+	}
+	Node* getLeft()
+	{
+		return left;
+	}
+};
+
+
+class BST
+{
+private:
+	Node* root;
+public:
+	BST()
+	{
+		root = NULL;
+	}
+	void insert(int data)
+	{
+		Node* N = new Node(data);
+
+		if (root == NULL)
+		{
+			root = N;
+		}
+		else
+		{
+			Node *temp = root;
+			while (true)
+			{
+				if (temp->getData() < data)
+				{
+					if (temp->getRight() == NULL)
+					{
+						temp->setRight(N);
+						
+						break;
+					}
+					else
+					{
+						temp = temp->getRight();
+					}
+				}
+				else if (temp->getData() > data)
+				{
+					if (temp->getLeft() == NULL)
+					{
+						temp->setLeft(N);
+						
+						break;
+					}
+					else
+					{
+						temp = temp->getLeft();
+					}
+				}
+			}
+		}
+	}
+	void display(int select)
+	{
+		if (root == NULL)
+		{
+			cout << "Empty tree \n";
+		}
+		else
+		{
+			if (select == 1)
+			{
+				inorder(root);
+			}
+			else if (select == 2)
+			{
+				preOrder(root);
+			}
+			else if (select == 3)
+			{
+				postOrder(root);
+			}
+			
+		}
+	}
+	void inorder(Node *temp)
+	{
+		if (temp == NULL)
+			return;
+		inorder(temp->getLeft());
+		cout << temp->getData() <<" , ";
+		inorder(temp->getRight());
+	}
+	void preOrder(Node *temp)
+	{
+		if (temp == NULL)
+			return;
+		cout << temp->getData();
+		preOrder(temp->getLeft());
+		preOrder(temp->getRight());
+	}
+	void postOrder(Node *temp)
+	{
+		if (temp == NULL)
+			return;
+		postOrder(temp->getLeft());
+		postOrder(temp->getRight());
+		cout << temp->getData();
+	}
+	Node* search(int data)
+	{
+		if (root == NULL)
+		{
+			return root;
+		}
+		else
+		{
+			Node* temp = root;
+			while (temp!=NULL)
+			{
+				if (temp->getData() == data)
+				{
+					return temp;
+				}
+				else if (temp->getData() > data)
+				{
+					temp = temp->getLeft();
+				}
+				else if (temp->getData() < data)
+				{
+					temp = temp->getRight();
+				}
+
+			}
+			return temp;
+
+		}
+		
+	}
+	Node* findMin(Node* temp)
+	{
+		if (temp == NULL)
+		{
+			return temp;
+		}
+		else
+		{
+			while (temp->getLeft() != NULL)
+			{
+				temp = temp->getLeft();
+			}
+			
+			return temp;
+		}
+	}
+	Node* findMax(Node* temp)
+	{
+		if (temp == NULL)
+		{
+			return temp;
+		}
+		else
+		{
+			while (temp->getRight() != NULL)
+			{
+				temp = temp->getRight();
+			}
+
+			return temp;
+		}
+	}
+	Node* getRoot()
+	{
+		return root;
+	}
+	void deleteNode(int data,Node* root)
+	{
+		if (root == NULL)
+		{
+			cout << "Empty Tree \n";
+		}
+		else
+		{
+			if (root->getRight() == NULL && root->getLeft() == NULL && root->getData() == data)
+			{
+				delete root;
+				root = NULL;
+			}
+			else
+			{
+				Node* prev = NULL;
+				Node* temp = root;
+				bool flag;
+				while (temp != NULL)
+				{
+					if (temp->getData() > data)
+					{
+						prev = temp;
+						temp = temp->getLeft();
+						flag = false;
+					}
+					else if (temp->getData()<data)
+					{
+						prev = temp;
+						temp = temp->getRight();
+						flag = true;
+					}
+					else
+					{
+						if (temp->getLeft() == NULL && temp->getRight() == NULL)
+						{
+							if (flag)
+							{
+								delete temp;
+								temp = NULL;
+								prev->setRight(NULL);
+							}
+							else
+							{
+								delete temp;
+								temp = NULL;
+								prev->setLeft(NULL);
+							}
+						}
+						else if (temp->getLeft() != NULL && temp->getRight() != NULL)
+						{
+							Node* min = findMin(temp->getRight());
+							temp->setData(min->getData());
+							if (temp->getRight()->getLeft() == NULL && temp->getRight()->getLeft() == NULL)
+							{
+								delete temp->getRight();
+								temp->setRight(NULL);
+								break;
+							}
+							deleteNode(min->getData(), temp->getRight());
+						}
+						else
+						{
+							if (flag)
+							{
+								if (temp->getRight() != NULL)
+								{
+									prev->setRight(temp->getRight());
+									delete temp;
+									temp = NULL;
+								}
+								else
+								{
+									prev->setRight(temp->getLeft());
+									delete temp;
+									temp = NULL;
+								}
+								
+							}
+							else
+							{
+								if (temp->getRight() != NULL)
+								{
+									prev->setLeft(temp->getRight());
+									delete temp;
+									temp = NULL;
+								}
+								else
+								{
+									prev->setLeft(temp->getLeft());
+									delete temp;
+									temp = NULL;
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+};
+
+int main()
+{
+	BST t1;
+	t1.insert(50);
+	t1.insert(30);
+	t1.insert(20);
+	t1.insert(40);
+	t1.insert(70);
+	t1.insert(60);
+	t1.insert(80);
+	t1.insert(75);
+	t1.insert(89);
+	t1.insert(55);
+	t1.deleteNode(30, t1.getRoot());
+	t1.deleteNode(80, t1.getRoot());
+	t1.deleteNode(50, t1.getRoot());
+	t1.display(1);
+	cout << endl;
+
+	
+
+	
+	/*
+	Node* min =  t1.findMin(t1.getRoot()) ;
+	if (min == NULL)
+	{
+		cout << "Empty tree \n";
+	}
+	else
+	{
+		cout <<"Minimum : " <<min->getData() << endl;
+	}
+	*/
+	/*
+	Node* max = t1.findMax(t1.getRoot());
+	if (max == NULL)
+	{
+		cout << "Empty tree \n";
+	}
+	else
+	{
+		cout << "Minimum : " << max->getData() << endl;
+	}
+	*/
+	/*
+	Node* sear = t1.search(1);
+	if (sear != NULL)
+	{
+		cout << sear->getData() <<"found successfully \n" << endl;
+	}
+	else
+	{
+		cout << "NULL \n";
+	}
+	*/
+
+
+	system("pause");
+	return 0;
+}
