@@ -1,0 +1,155 @@
+#include <iostream>
+using namespace std;
+
+class classRoom
+{
+protected:
+	string roomNumber;
+	int numberOfChairs;
+	bool projector;
+	int area;
+public:
+public:
+
+	classRoom()
+	{
+		roomNumber = nullptr;
+		numberOfChairs = -1;
+		projector = false;
+		area = -1;
+	}
+	classRoom(string roomNumber, int numberOfChairs, bool projector, int area)
+	{
+		this->roomNumber = roomNumber;
+		this->numberOfChairs = numberOfChairs;
+		this->projector = projector;
+		this->area = area;
+	}
+	void setRoomNumber(string roomNumber)
+	{
+		this->roomNumber = roomNumber;
+	}
+	void setNumberOfChairs(int numberOfChairs)
+	{
+		this->numberOfChairs = numberOfChairs;
+	}
+	void setProjector(bool projector)
+	{
+		this->projector = projector;
+	}
+	void setArea(int area)
+	{
+		if (area != -1)
+		{
+			this->area = area;
+		}
+	}
+	string getRoomNumber()
+	{
+		return roomNumber;
+	}
+	int getNumberOfChairs()
+	{
+		return numberOfChairs;
+	}
+	bool getProjector()
+	{
+		return projector;
+	}
+	int getArea()
+	{
+		return area;
+	}
+	~classRoom()
+	{
+
+	}
+};
+
+class computerLab
+{
+protected:
+	string roomNumber;
+	int numberOfComputers;
+	bool projector;
+public:
+	computerLab()
+	{
+		roomNumber = nullptr;
+		numberOfComputers = -1;
+		projector = false;
+	}
+	computerLab(string roomNumber, int numberOfComputers, bool projector)
+	{
+		this->roomNumber = roomNumber;
+		this->numberOfComputers = numberOfComputers;
+		this->projector = projector;
+		
+	}
+	void setRoomNumber(string roomNumber)
+	{
+		this->roomNumber = roomNumber;
+	}
+	void setnumberOfComputers(int numberOfComputers)
+	{
+		this->numberOfComputers = numberOfComputers;
+	}
+	void setProjector(bool projector)
+	{
+		this->projector = projector;
+	}
+	
+	string getRoomNumber()
+	{
+		return roomNumber;
+	}
+	int getNumberOfComputers()
+	{
+		return numberOfComputers;
+	}
+	bool getProjector()
+	{
+		return projector;
+	}
+	
+	~computerLab()
+	{
+
+	}
+
+};
+class University:public classRoom, public computerLab
+{
+private:
+	string name;
+	classRoom class;
+	computerLab lab;
+public:
+	University()
+	{
+		name = nullptr;
+	}
+	University(string name, string roomNumber, int numberOfComputers, bool projector, int numberOfChairs, int area)
+	{
+		this->name = name;
+	}
+	void setName(string name)
+	{
+		this->name = name;
+	}
+	string getName()
+	{
+		return name;
+	}
+	~University()
+	{
+
+	}
+};
+int main()
+{
+
+	system("pause");
+	return 0;
+
+}
