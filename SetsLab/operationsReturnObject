@@ -1,0 +1,403 @@
+#include <iostream>
+using namespace std;
+
+class MyArray
+{
+    int* arr;
+    int size;
+    int count;
+    void init()
+    {
+        for (int i = 0; i < size; i++)
+        {
+            arr[i] = -1;
+        }
+    }
+public:
+    MyArray()
+    {
+        size = 5;
+        arr = new int[size];
+        count = 0;
+        init();
+    }
+    MyArray(int s)
+    {
+        size = s;
+        arr = new int[size];
+        count = 0;
+        init();
+    }
+    int* getArr()
+    {
+        return arr;
+    }
+    int getSize()
+    {
+        return size;
+    }
+    int getCount()
+    {
+        return count;
+    }
+    void insert(int data)
+    {
+        if (isUnique(data) && !isFull())
+        {
+            //atStart
+            //check for uniqueness of the data
+            arr[count] = data;
+            count++;
+        }
+        else
+        {
+            if (!isUnique(data))
+            {
+                //cerr << "Not a unique number, already exists \n";
+            }
+            else
+            {
+                //regrow
+                int* temp = new int[size * 2];
+                for (int i = 0; i < size; i++)
+                {
+                    temp[i] = arr[i];
+                }
+                delete arr;
+                arr = temp;
+                size *= 2;
+                insert(data);
+            }
+        }
+    }
+    void insertAtIndex(int data, int index)
+    {
+        if (isUnique(data) && !isFull() && (index>=0&&index<count))
+        {
+            //atStart
+            //check for uniqueness of the data
+            if (arr[index] == -1)
+            {
+                arr[index] = data;
+                count++;
+            }
+            else
+            {
+                cerr << "Can not overWrite \n";
+            }
+        }
+        else
+        {
+            if (!isUnique(data))
+            {
+                //cerr << "Not a unique number, already exists \n";
+            }
+            else if (!(index >= 0))
+            {
+                cerr << "Invalid Index \n";
+            }
+            else
+            {
+                //regrow
+                int* temp = new int[size * 2];
+                for (int i = 0; i < size; i++)
+                {
+                    temp[i] = arr[i];
+                }
+                delete arr;
+                arr = temp;
+                size *= 2;
+                insertAtIndex(data,index);
+            }
+        }
+    }
+    bool isUnique(int data)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (arr[i] == data)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+    void insertAtStart(int data)
+    {
+        if (count == 0)
+        {
+            arr[count] = data;
+            count++;
+        }
+        else
+        {
+            cerr << "Can not overWrite \n";
+        }
+    }
+    void deleteFromStart()
+    {
+        if (count > 0)
+        {
+            arr[0] = -1;
+        }
+        else
+        {
+            cerr << "Empty \n";
+        }
+
+    }
+    bool isEmpty()
+    {
+        if (count == 0)
+            return true;
+        return false;
+    }
+    bool isFull()
+    {
+        if (count == size)
+            return true;
+        return false;
+    }
+    bool checkBound(int index)
+    {
+        if (index<0 && index>size - 1)
+            return true;
+        return false;
+    }
+    void insertAtEnd(int val)
+    {
+        if (!checkBound(count))
+        {
+            arr[count] = val;
+            count++;
+        }
+    }
+    void deleteElement(int data)
+    {
+        int index = search(data);
+        if (index !=-1)
+        {
+            arr[index] = -1;
+
+        }
+        else
+        {
+            cerr << "Does not exist \n";
+        }
+    }
+    void array_filter()
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (arr[i] == -1)
+            {
+                int j = 0;
+                for (j = i; j < count-1; j++)
+                {
+                    arr[j] = arr[j+1];
+                }
+                arr[j+1] = -1;
+                count--;
+            }
+        }
+    }
+    void deleteAtEnd()
+    {
+        if (count != 0)
+        {
+            arr[count] = -1;
+            count--;
+        }
+    }
+    void deleteAtIndex(int index)
+    {
+        if (!checkBound(index) && arr[index] != -1)
+        {
+            arr[index] = arr[count - 1];
+            arr[--count] = -1;
+        }
+    }
+    int search(int key)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (arr[i] == key)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    
+    void display()
+    {
+        for (int i = 0; i < count; i++)
+        {
+            cout << arr[i] << " ";
+        }
+        cout << endl;
+    }
+};
+template <class Type>
+class Set
+{
+    MyArray* mySet;
+public:
+    Set()
+    {
+        mySet = new MyArray(5);
+    }
+    ~Set()
+    {
+
+    }
+    void addElement(Type elem)
+    {
+        mySet->insert(elem);
+    }
+    void removeElement(int key)
+    {
+        mySet->deleteElement(key);
+    }
+    bool isEmpty()
+    {
+        return mySet.isEmpty();
+    }
+    bool isFull()
+    {
+        return mySet.isFull();
+    }
+    bool find(Type elem)
+    {
+        if (mySet.search(elem) == -1)
+        {
+            return false;
+       }
+        return true;
+    }
+
+    void removeBlankIndices()
+    {
+        mySet->array_filter();
+    }
+    int commonElements(const Set& obj)
+    {
+        int count=0;
+        for (int i = 0; i < mySet->getCount(); i++)
+        {
+            for (int j = 0; j < obj.mySet->getCount(); j++)
+            {
+                if (mySet->getArr()[i] == obj.mySet->getArr()[j])
+                {
+                    
+                    count++;
+                    break;
+                }
+            }
+           
+        }
+        return count;
+    }
+    Set* compute_union(const Set& obj)
+    {
+        int nSize = mySet->getCount() + obj.mySet->getCount() - commonElements(obj.mySet);
+        Set* temp = new Set[nSize];
+        for (int i = 0; i < obj.mySet->getCount(); i++)
+        {
+            temp->insert(obj.mySet->getArr()[i]);
+        }
+        return temp;
+    }
+   
+    void compute_intersection(const Set& obj)
+    {
+        
+        for (int i = 0; i < mySet->getCount(); i++)
+        {
+            for (int j = 0; j < obj.mySet->getCount(); j++)
+            {
+                if (mySet->getArr()[i] == obj.mySet->getArr()[j])
+                {
+                    cout << mySet->getArr()[i] << " , ";
+                    break;
+                }
+            }
+
+        }
+       
+
+    }
+    void compute_difference(const Set& obj)
+    {
+        bool isUnique = true;
+        for (int i = 0; i < mySet->getCount(); i++)
+        {
+            isUnique = true;
+            for (int j = 0; j < obj.mySet->getCount(); j++)
+            {
+                if (mySet->getArr()[i] == obj.mySet->getArr()[j])
+                {
+                    isUnique = false;
+                }
+            }
+            if (isUnique)
+            {
+                cout << mySet->getArr()[i] <<" , ";
+            }
+
+        }
+        cout << endl;
+    }
+
+    void display()
+    {
+        mySet->display();
+    }
+};
+int main()
+{
+    Set<int> s1;
+    s1.addElement(10);
+    s1.addElement(100);
+    s1.addElement(50);
+    s1.addElement(90);
+    s1.display();
+    s1.removeElement(100);
+    s1.display();
+    s1.removeBlankIndices();
+    s1.display();
+    
+    Set<int> s2;
+    s2.addElement(110);
+    s2.addElement(1020);
+    s2.addElement(5032);
+    s2.addElement(9012);
+    s2.addElement(10);
+    s2.addElement(100);
+    s2.addElement(50);
+    s2.addElement(9012);
+    s2.display();
+
+    
+
+    cout << "Set 1 : ";
+    s1.display();
+    cout << "Set 2 : ";
+    s2.display();
+    cout<<"Number of Common Elements are : " << s2.commonElements(s1) << endl;
+
+    s2.compute_difference(s1);
+    cout << endl;
+    cout << "Intersection : ";
+    s2.compute_intersection(s1);
+    Set<int> s3;
+    
+    cout << "Union : ";
+   
+    s3.display();
+    
+    cout << "set1 U set2 complement with set1 : ";
+    
+
+   return 0;
+}
