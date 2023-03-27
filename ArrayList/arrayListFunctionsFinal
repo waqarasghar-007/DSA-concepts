@@ -1,0 +1,551 @@
+//Source Code by "Waqar Asghar" , "L1S21BSSE0119" , "DSA" , "P1" , "L1S21BSSE0119@ucp.edu.pk";
+//Resource Person: " Zeeshan Khan";
+//Resource book used: "Data Structures Using C++	D. S. Malik		Cengage Learning"
+//Web resources used: "https://www.geeksforgeeks.org/data-structures/"
+
+/*
+Problem Statement(s):
+				1. Implement the array list with its default methods/functions
+				2. Solve any five related taks from geeksforgeeks.org 
+				3. Implemnent array list using following functionalities
+						(A) When two arrayLists are copied, the new array must be ordered.
+						(B) insertAt, insertAtStart, insertAtLast
+*/
+
+#include <iostream>
+using namespace std;
+
+template <class T>
+class arrayList
+{
+private:
+	int capacity;
+	T* arr;
+	int size;
+	void init()
+	{
+		for (int i = 0; i < capacity; i++)
+		{
+			arr[i] = -1;
+		}
+	}
+	void init(int from)
+	{
+		for (int i = from; i < capacity; i++)
+		{
+			arr[i] = -1;
+		}
+	}
+public:
+	arrayList()
+	{
+		capacity = 3;
+		arr = new T[capacity];
+		size = -1;
+		init();
+	}
+	arrayList(int capacity)
+	{
+		this->capacity = capacity;
+		arr = new T[capacity];
+		size = -1;
+		init();
+	}
+	void insert(T data)
+	{
+		if (!isFull())
+		{
+			if (isEmpty())
+			{
+				size = 0;
+				arr[size] = data;
+				size++;
+			}
+			else
+			{
+				arr[size] = data;
+				size++;
+			}
+		}
+		else
+		{
+			T* temp;
+			temp = new T[capacity * 2];
+			for (int i = 0; i < size; i++)
+			{
+				temp[i] = arr[i];
+			}
+			delete[]arr;
+			arr = temp;
+			capacity *= 2;
+			init(size);
+			insert(data);
+		}
+	}
+	void insertAtStart(T data)
+	{
+		if (isEmpty())
+		{
+			size = 0;
+			arr[size] = data;
+			size++;
+		}
+		else
+		{
+			cout << "Start index is occupied \n";
+		}
+	}
+	void insertAtEnd(T data)
+	{
+		if (!isEmpty())
+		{
+			arr[size] = data;
+			size++;
+		}
+		else
+		{
+			insertAtStart(data);
+		}
+	}
+	bool insertAt(int index,T data)
+	{
+		bool ret = false;
+		if (!isFull() && index >= 0 && index < size)
+		{
+			if (isVacant(index))
+			{
+				arr[index] = data;
+				ret = true;
+				return ret;
+			}
+			else
+			{
+				cerr<<"Index occupied \n";
+			}
+		}
+		else
+		{
+			cerr << "Full \n";
+		}
+		return ret;
+	}
+	bool isVacant(int index)
+	{
+		if (arr[index] == -1)
+			return true;
+		return false;
+	}
+	bool addAll(arrayList& list)
+	{
+		bool ret = false;
+		for (int i = 0; i < list.getSize(); i++)
+		{
+			
+			this->insert(list.arr[i]);
+			ret = true;
+		}
+		orderAscending();
+		return ret;
+	}
+	bool isFull()
+	{
+		if (size == capacity)
+		{
+			return true;
+		}
+		return false;
+	}
+	bool isEmpty()
+	{
+		if (size == -1)
+		{
+			return true;
+		}
+		return false;
+	}
+	int search(T key)
+	{
+		if (contains(key))
+		{
+			for (int i = 0; i < size; i++)
+			{
+				if (arr[i] == key)
+				{
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
+	bool contains(T key)
+	{
+		if (!isEmpty())
+		{
+			for (int i = 0; i < size; i++)
+			{
+				if (arr[i] == key)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+	bool containsList(arrayList& obj)
+	{
+		bool ret = false;
+		if (!isEmpty())
+		{
+			
+			for (int i = 0; i < obj.getSize(); i++)
+			{
+				if (this->contains(obj.arr[i]))
+				{
+					ret = true;
+				}
+				else
+				{
+					ret = false;
+					return ret;
+				}
+			}
+
+		}
+		return ret;
+	}
+	void display()
+	{
+		if (!isEmpty())
+		{
+			for (int i = 0; i < size; i++)
+			{
+				cout << arr[i] << " ";
+			}
+		}
+		else
+		{
+			cerr << "Empty \n";
+		}
+		cout << endl;
+	}
+	void clear()
+	{
+		capacity = 3;
+		arr = new T[capacity];
+		size = -1;
+	}
+	bool Delete(T key)
+	{
+		int ret = false;
+		int index = search(key);
+		if (index == -1)
+		{
+			cout << "Data not found! \n";
+			ret = false;
+		}
+		else
+		{
+			for (int i = index; i < size - 1; i++)
+			{
+				arr[i] = arr[i + 1];
+			}
+			size--;
+			ret = true;
+		}
+		return ret;
+	}
+	void remove(int index)
+	{
+		arr[index] = -1;
+	}
+	void orderAscending()
+	{
+		for (int i = 0; i < this->getSize(); ++i)
+		{
+			for (int j = 0; j < (this->getSize() - i) - 1; ++j)
+			{
+				if (this->arr[j] > this->arr[j + 1])
+				{
+					T temp;
+					temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+
+				}
+
+
+			}
+		}
+	}
+	void orderItAscending(arrayList& list)
+	{
+
+		for (int i = 0; i < list.getSize() ; ++i)
+		{
+			for (int j = 0; j < (list.getSize() - i)-1; ++j)
+			{
+				if (list.arr[j] > list.arr[j+1])
+				{
+					T temp;
+					temp = arr[j];
+					arr[j] = arr[j+1];
+					arr[j+1] = temp;
+
+				}
+				
+
+			}
+		}
+	}
+	void orderItDescending(arrayList& list)
+	{
+		for (int i = 0; i < list.getSize(); ++i)
+		{
+			for (int j = 0; j < (list.getSize() - i) - 1; ++j)
+			{
+				if (list.arr[j] < list.arr[j + 1])
+				{
+					T temp;
+					temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+		}
+	}
+	bool update(T old, T New)
+	{
+		bool ret = false;
+		int index = search(old);
+		if (index != -1)
+		{
+			arr[index] = New;
+			ret = true;
+		}
+		else
+		{
+			cout <<old <<" not found \n";
+			ret = false;
+		}
+		return ret;
+	}
+	arrayList clone()
+	{
+		arrayList obj;
+		for (int i = 0; i < size; i++)
+		{
+			obj.insert(arr[i]);
+		}
+		return obj;
+	}
+	int get(int index)
+	{
+		if (!isEmpty() && index<size)
+		{
+			return arr[index];
+		}
+		return -1;
+	}
+	int getSize()
+	{
+		return size;
+	}
+	int getCapacity()
+	{
+		return capacity;
+	}
+	bool removeAll(arrayList& obj)
+	{
+		bool ret = false;
+		if (containsList(obj))
+		{
+			for (int i = 0; i < obj.getSize(); i++)
+			{
+				Delete(obj.arr[i]);
+			}
+			ret = true;
+			return ret;
+		}
+		else
+		{
+			cerr << "List to be deleted does not exist in the actual list \n";
+		}
+		return ret;
+	}
+	arrayList subList(int startIndex, int endIndex)
+	{
+		arrayList sublist;
+		if (!isEmpty() && (startIndex >= 0 && startIndex < size-1) && endIndex < size)
+		{
+			for (int i = startIndex; i <= endIndex; i++)
+			{
+				
+				sublist.insert(this->arr[i]);
+			}
+		}
+		else if (!(startIndex >= 0 && startIndex < size - 1))
+		{
+			cerr << "Invalid start Index \n";
+		}
+		else if (endIndex >= size || endIndex <= startIndex)
+		{
+			cerr << "Invalid end index \n";
+		}
+		return sublist;
+	}
+	void trimToSize()
+	{
+		capacity = size;
+	}
+	void removeRange(int startIndex, int endIndex)
+	{
+		if (!isEmpty() && (startIndex >= 0 && startIndex < size-1 ) && endIndex < size)
+		{
+			for (int i = startIndex; i <= endIndex; i++)
+			{
+				remove(i);
+			}
+		}
+		else if (!(startIndex >= 0 && startIndex < size - 1))
+		{
+			cerr << "Invalid start Index \n";
+		}
+		else 
+		{
+			cerr << "Invalid end index \n";
+		}
+		trim();
+		orderAscending();
+
+		
+	}
+	void trim()
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (arr[i] == -1)
+			{
+				for (int j = i+1; j < size; j++)
+				{
+					arr[i] = arr[j];
+				}
+				size--;
+			}
+		}
+		
+	}
+
+};
+int main()
+{
+
+	arrayList<int> list;
+	list.insertAtStart(1);
+	for (int i = 1; i <= 10; i++)
+	{
+		list.insert(3 * i);
+	}
+	list.insertAtEnd(50);
+	cout << "List 1 : "; list.display();
+	arrayList<int> list4;
+	for (int i = 1; i < 10; i++)
+	{
+		list4.insert(i * 2);
+	}
+	cout << "List 4 "; list4.display();
+	list.addAll(list4);
+	cout << "List 1 and 4 are copied to list 1 : ";  list.display();
+	int data = 5;
+	int index = list.search(data);
+	if (index != -1)
+	{
+		cout << "Index of " <<data <<" in list 1 is : " << index << endl;
+	}
+	else
+	{
+		cout <<data <<" Not found! \n";
+	}
+	int del = 30;
+	if (list.Delete(del))
+	{
+		cout << del << " has been deleted from the list 1. \nList 1 :"; list.display();
+	}
+	del = 15;
+	if (list.Delete(del))
+	{
+		cout << del << " has been deleted from the list 1. \nList 1 :"; list.display();
+	}
+	int toBeUpdated = 21, updatedBy = 26;
+	if (list.update(toBeUpdated, updatedBy))
+	{
+		cout << toBeUpdated << " updated successFully with " << updatedBy << endl;
+	}
+	list.display();
+	
+	
+	
+	
+	arrayList<int> list2;
+	for (int i = 0; i < 10; i++)
+	{
+		list2.insert(i * 5);
+	}
+	cout << "List 2 : "; list2.display();
+	
+	cout << "List 1 in ascending order : "; list.orderItAscending(list); list.display();
+	cout << "List 1 in descending order : "; list.orderItDescending(list); list.display();
+	
+	arrayList<int> list3;
+	list3 = list2;
+	cout << "List 2 is copied into list 3 as : "; list3.display();
+	list3 = list2.clone();
+	cout << "List 2 is cloned into list 3 as : ";  list3.display();
+	int ind = 5;
+	cout <<"using get to print data at index " <<ind <<" : " <<list3.get(ind) << endl;
+	data = 500;
+	cout << "Using contain to check existance of " << data << " in list 3 : ";
+	if (list3.contains(data))
+	{
+		cout << "Successfuly found \n";
+	}
+	else
+	{
+		cout << "Not found \n";
+	}
+	cout << "Using containsList to check existance of list 4 in list 1 : ";
+	if (list.containsList(list4))
+	{
+		cout << "Successfuly found \n";
+	}
+	else
+	{
+		cout << "Not found \n";
+	}
+	cout << "Using remove All to remove list 4 from list1 \n";
+	if (list.removeAll(list4))
+	{
+		cout << "Successfully removed \n";
+	}
+	cout << "List 1 afterremoving list 4 form it : "; 	list.display();
+
+	arrayList<int> sub;
+	sub = list.subList(2, 7);
+	cout << "Sublist from list1 ";  sub.display();
+	
+	list.removeRange(2, 5);
+	cout << "Elements from 2 to 5 indices are removed from list 1 : "; list.display(); 
+	if (list.insertAt(5, 222))
+	{
+		cout << "Inserted 222 at index 5 : ";  list.display();
+	}
+	
+	list.clear();
+	cout << "After clear : ";
+	list.display(); 
+	
+
+	system("pause");
+	return 0;
+}
