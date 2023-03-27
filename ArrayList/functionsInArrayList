@@ -1,0 +1,418 @@
+#include <iostream>
+using namespace std;
+
+template <class T>
+class arrayList
+{
+private:
+	int capacity;
+	T* arr;
+	int size;
+public:
+	arrayList()
+	{
+		capacity = 3;
+		arr = new T[capacity];
+		size = -1;
+	}
+	arrayList(int capacity)
+	{
+		this->capacity = capacity;
+		arr = new T[capacity];
+		size = -1;
+	}
+	void insert(T data)
+	{
+		if (!isFull())
+		{
+			if (isEmpty())
+			{
+				size = 0;
+				arr[size] = data;
+				size++;
+			}
+			else
+			{
+				arr[size] = data;
+				size++;
+			}
+		}
+		else
+		{
+			T* temp;
+			temp = new T[capacity * 2];
+			for (int i = 0; i < size; i++)
+			{
+				temp[i] = arr[i];
+			}
+			delete[]arr;
+			arr = temp;
+			capacity *= 2;
+			insert(data);
+		}
+	}
+	bool addAll(arrayList& list)
+	{
+		bool ret = false;
+		for (int i = 0; i < list.getSize(); i++)
+		{
+			cout << list.arr[i] << endl;
+			this->insert(list.arr[i]);
+			ret = true;
+		}
+		return ret;
+	}
+	bool isFull()
+	{
+		if (size == capacity)
+		{
+			return true;
+		}
+		return false;
+	}
+	bool isEmpty()
+	{
+		if (size == -1)
+		{
+			return true;
+		}
+		return false;
+	}
+	int search(T key)
+	{
+		if (contains(key))
+		{
+			for (int i = 0; i < size; i++)
+			{
+				if (arr[i] == key)
+				{
+					return i;
+				}
+			}
+		}
+
+		return -1;
+	}
+	bool contains(T key)
+	{
+		if (!isEmpty())
+		{
+			for (int i = 0; i < size; i++)
+			{
+				if (arr[i] == key)
+				{
+					return true;
+				}
+			}
+		}
+
+		return false;
+	}
+	bool containsList(arrayList& obj)
+	{
+		bool ret = false;
+		if (!isEmpty())
+		{
+			
+			for (int i = 0; i < obj.getSize(); i++)
+			{
+				if (this->contains(obj.arr[i]))
+				{
+					ret = true;
+				}
+				else
+				{
+					ret = false;
+					return ret;
+				}
+			}
+
+		}
+		return ret;
+	}
+	void display()
+	{
+		if (!isEmpty())
+		{
+			for (int i = 0; i < size; i++)
+			{
+				cout << arr[i] << " ";
+			}
+		}
+		else
+		{
+			cerr << "Empty \n";
+		}
+
+	}
+	void clear()
+	{
+		capacity = 3;
+		arr = new T[capacity];
+		size = -1;
+	}
+	void Delete(T key)
+	{
+		int index = search(key);
+		if (index == -1)
+		{
+			cout << "Data not found! \n";
+		}
+		else
+		{
+			for (int i = index; i < size - 1; i++)
+			{
+				arr[i] = arr[i + 1];
+			}
+			size--;
+		}
+	}
+	void remove(int index)
+	{
+		arr[index] = -1;
+	}
+	void orderAscending()
+	{
+		for (int i = 0; i < this->getSize(); ++i)
+		{
+			for (int j = 0; j < (this->getSize() - i) - 1; ++j)
+			{
+				if (this->arr[j] > this->arr[j + 1])
+				{
+					T temp;
+					temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+
+				}
+
+
+			}
+		}
+	}
+	void orderItAscending(arrayList& list)
+	{
+
+		for (int i = 0; i < list.getSize() ; ++i)
+		{
+			for (int j = 0; j < (list.getSize() - i)-1; ++j)
+			{
+				if (list.arr[j] > list.arr[j+1])
+				{
+					T temp;
+					temp = arr[j];
+					arr[j] = arr[j+1];
+					arr[j+1] = temp;
+
+				}
+				
+
+			}
+		}
+	}
+	void orderItDescending(arrayList& list)
+	{
+		for (int i = 0; i < list.getSize(); ++i)
+		{
+			for (int j = 0; j < (list.getSize() - i) - 1; ++j)
+			{
+				if (list.arr[j] < list.arr[j + 1])
+				{
+					T temp;
+					temp = arr[j];
+					arr[j] = arr[j + 1];
+					arr[j + 1] = temp;
+				}
+			}
+		}
+	}
+	void update(T old, T New)
+	{
+		int index = search(old);
+		if (index != -1)
+		{
+			arr[index] = New;
+		}
+		else
+		{
+			cout << "Data not found \n";
+		}
+	}
+	arrayList clone()
+	{
+		arrayList obj;
+		for (int i = 0; i < size; i++)
+		{
+			obj.insert(arr[i]);
+		}
+		return obj;
+	}
+	int get(int index)
+	{
+		if (!isEmpty() && index<size)
+		{
+			return arr[index];
+		}
+		return -1;
+	}
+	int getSize()
+	{
+		return size;
+	}
+	int getCapacity()
+	{
+		return capacity;
+	}
+	void removeAll(arrayList& obj)
+	{
+		if (containsList(obj))
+		{
+			for (int i = 0; i < obj.getSize(); i++)
+			{
+				Delete(obj.arr[i]);
+			}
+		}
+		else
+		{
+			cerr << "List to be deleted does not exist in the actual list \n";
+		}
+	}
+	arrayList subList(int startIndex, int endIndex)
+	{
+		arrayList sublist;
+		if (!isEmpty() && (startIndex >= 0 && startIndex < size-1) && endIndex < size)
+		{
+			for (int i = startIndex; i <= endIndex; i++)
+			{
+				
+				sublist.insert(this->arr[i]);
+			}
+		}
+		else if (!(startIndex >= 0 && startIndex < size - 1))
+		{
+			cerr << "Invalid start Index \n";
+		}
+		else if (endIndex >= size || endIndex <= startIndex)
+		{
+			cerr << "Invalid end index \n";
+		}
+		return sublist;
+	}
+	void trimToSize()
+	{
+		capacity = size;
+	}
+	void removeRange(int startIndex, int endIndex)
+	{
+		if (!isEmpty() && (startIndex >= 0 && startIndex < size-1 ) && endIndex < size)
+		{
+			for (int i = startIndex; i <= endIndex; i++)
+			{
+				remove(i);
+			}
+		}
+		else if (!(startIndex >= 0 && startIndex < size - 1))
+		{
+			cerr << "Invalid start Index \n";
+		}
+		else 
+		{
+			cerr << "Invalid end index \n";
+		}
+		trim();
+		orderAscending();
+
+		
+	}
+	void trim()
+	{
+		for (int i = 0; i < size; i++)
+		{
+			if (arr[i] == -1)
+			{
+				for (int j = i+1; j < size; j++)
+				{
+					arr[i] = arr[j];
+				}
+				size--;
+			}
+		}
+		
+	}
+
+};
+int main()
+{
+
+	arrayList<int> list;
+	for (int i = 1; i <= 10; i++)
+	{
+		list.insert(3 * i);
+	}
+	/*
+	list.display();
+	cout << endl;
+	int index = list.search(5);
+	if (index != -1)
+	{
+		cout << "Index : " << index << endl;
+	}
+	else
+	{
+		cout << "Not found! \n";
+	}
+	list.Delete(30);
+	list.display(); cout << endl;
+	list.Delete(15);
+	list.display(); cout << endl;
+	list.update(15, 51);
+	list.display(); cout << endl;
+	list.update(50, 15);
+	list.display(); cout << endl;
+	*/
+	/*
+	list.clear();
+	cout << "After clear : \n";
+	list.display(); cout << endl;
+	*/
+	/*
+	arrayList<int> list2;
+	for (int i = 0; i < 10; i++)
+	{
+		list2.insert(i * 5);
+	}
+	list.addAll(list2);
+	list.display(); cout << endl;
+	list2.display(); cout << endl;
+	list.orderItAscending(list);
+	list.display(); cout << endl;
+	list.orderItDescending(list);
+	list.display(); cout << endl;
+	arrayList<int> list3;
+	list3 = list2;
+	list3.display(); cout << endl;
+	list3 = list2.clone();
+	list3.display(); cout << endl;
+	cout << list3.get(5) << endl;
+	cout << list3.contains(500) << endl;
+	cout<<list.containsList(list3) << endl;
+	cout << endl;
+	list.display(); cout << endl;
+	
+	list.removeAll(list2);
+	list.display(); cout << endl;
+	*/
+	//cout << list.getCapacity() << "	" << list.getSize() << endl;
+
+	arrayList<int> sub;
+	sub = list.subList(2, 7);
+	sub.display(); cout << endl;
+	
+	list.display(); cout << endl;
+	list.removeRange(2, 5);
+	list.display(); cout << endl;
+
+
+	system("pause");
+	return 0;
+}
