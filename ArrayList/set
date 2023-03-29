@@ -1,0 +1,204 @@
+#include <iostream>
+using namespace std;
+class MyArray
+{
+    int* arr;
+    int size;
+    int count;
+    void init()
+    {
+        for (int i = 0; i < size; i++)
+        {
+            arr[i] = -1;
+        }
+    }
+public:
+    MyArray(int s = 5)
+    {
+        size = s;
+        arr = new int[size];
+        count = 0;
+        init();
+    }
+    bool checkBound(int index)
+    {
+        if (index<0 && index>size - 1)
+            return true;
+        return false;
+    }
+    void insertAtEnd(int val)
+    {
+        if (!checkBound(count))
+        {
+            arr[count] = val;
+            count++;
+        }
+    }
+
+    void deleteAtEnd()
+    {
+        if (count != 0)
+        {
+            arr[count] = -1;
+            count--;
+        }
+    }
+    void deleteAtIndex(int index)
+    {
+        if (!checkBound(index) && arr[index] != -1)
+        {
+            arr[index] = -1;
+            trim();
+            count--;
+        }
+    }
+    int search(int key)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (arr[i] == key)
+            {
+                return i;
+            }
+        }
+        return -1;
+    }
+    void trim()
+    {
+        for (int i = 0; i < count; i++)
+        {
+            if (arr[i] == -1)
+            {
+                for (int j = i ; j < count-1; j++)
+                {
+                    arr[j] = arr[j+1];
+                }
+                size--;
+            }
+        }
+
+    }
+    int getSize()
+    {
+        return count;
+    }
+    int getCapacity()
+    {
+        return size;
+    }
+    int* getArr()
+    {
+        return arr;
+    }
+    void display()
+    {
+        for (int i = 0; i < count; i++)
+        {
+            cout << arr[i] << " ";
+        }
+        
+    }
+};
+
+class mySets
+{
+    MyArray mySet;
+public:
+   
+    mySets(int s = 5) : mySet(s)
+    {
+        
+    }
+    void addElement(int val)
+    {
+        if (mySet.search(val) == -1)
+        {
+            mySet.insertAtEnd(val);
+        }
+        else
+        {
+            cout << "Value already exists" << endl;
+        }
+    }
+    void removeElement(int val)
+    {
+        int index = mySet.search(val);
+        mySet.deleteAtIndex(index);
+
+    }
+    bool isEmpty()
+    {
+        if (mySet.getSize() == 0)
+            return true;
+        return false;
+    }
+    bool isFull()
+    {
+        if (mySet.getSize() == mySet.getCapacity())
+            return true;
+        return false;
+    }
+    bool search(int num)
+    {
+        if (mySet.search(num) == -1)
+            return false;
+        return true;
+
+    }
+    void computeUnion(mySets& obj)
+    {
+        this->display();
+        for (int i = 0; i < obj.getMyset().getSize(); i++)
+        {
+            if (obj.getMyset().search(this->getMyset().getArr()[i])==-1)
+            {
+                cout << obj.getMyset().getArr()[i] <<" ";
+            }
+        }
+    }
+    void computeIntersection(mySets& obj)
+    {
+       
+        for (int i = 0; i <this->getMyset().getSize(); i++)
+        {
+            if (obj.getMyset().search(this->getMyset().getArr()[i]) != -1)
+            {
+                
+                cout << this->getMyset().getArr()[i] << " ";
+            }
+        }
+    }
+    MyArray getMyset()
+    {
+        return mySet;
+    }
+    void display()
+    {
+        mySet.display();
+    }
+};
+int main()
+{
+    mySets s1;
+    s1.addElement(10);
+    s1.addElement(100);
+    s1.addElement(50);
+    s1.addElement(90);
+    //s1.display(); cout << endl;
+    
+    s1.removeElement(100);
+    s1.display(); cout << endl;
+    
+    mySets s2;
+    s2.addElement(101);
+    s2.addElement(1000);
+    s2.addElement(70);
+    s2.addElement(900);
+    s2.display(); cout << endl;
+
+    s1.computeUnion(s2); cout << endl;
+    s1.computeIntersection(s2); cout << endl;
+
+
+    return 0;
+}
