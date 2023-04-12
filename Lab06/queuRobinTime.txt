@@ -1,0 +1,178 @@
+#include <iostream>
+#include <ctime>
+using namespace std;
+
+template <class T>
+class queu
+{
+private:
+	int front;
+	T *ptr;
+	int rear;
+	int size;
+
+public:
+	//big O(1)
+	queu()
+	{
+		size = 3;
+		ptr = new T[size];
+		front = rear = -1;
+	}
+	//big O(1)
+	queu(int size)
+	{
+		this->size = size;
+		ptr = new T[size];
+		front = rear = -1;
+	}
+	//big O(n)
+	void Enqueu(T data)
+	{
+		if (!isFull())
+		{
+			if (isEmpty())
+			{
+				front = rear = 0;
+				ptr[rear] = data;
+				rear++;
+			}
+			else
+			{
+				ptr[rear] = data;
+				rear++;
+			}
+		}
+		else
+		{
+			//regrow stack
+			T *temp;
+			temp = new T[size * 2];
+			for (int i = 0; i < rear; i++)
+			{
+				temp[i] = ptr[i];
+			}
+			delete[]ptr;
+			ptr = temp;
+			size *= 2;
+			Enqueu(data);
+		}
+
+	}
+	//big O(1)
+	bool isEmpty()
+	{
+		if (front == -1 && rear == -1)
+		{
+			return true;
+		}
+		return false;
+	}
+	//big O(1)
+	bool isFull()
+	{
+		if (rear == size)
+		{
+			return true;
+		}
+		return false;
+	}
+	//big O(n)
+	T Dequeu()
+	{
+		T temp;
+		if (!isEmpty())
+		{
+			temp = ptr[front];
+			for (int i = 0; i < rear; i++)
+			{
+				ptr[i] = ptr[i + 1];
+			}
+			rear--;
+			return temp;
+
+		}
+		else
+		{
+			cout << "Empty Queu \n";
+		}
+	}
+	//big O(1)
+	T peek()
+	{
+		T temp;
+		if (!isEmpty())
+		{
+			temp = ptr[front];
+			return temp;
+
+		}
+		else
+		{
+			cout << "Empty Queu \n";
+		}
+	}
+	//big O(n)
+	void display()
+	{
+		if (!isEmpty())
+		{
+			cout << "Total Enteries: " << rear << endl;
+			for (int i = 0; i < rear; i++)
+			{
+				cout << ptr[i] << ",";
+			}
+
+		}
+		else
+		{
+			cout << "Empty Queu \n";
+		}
+	}
+
+};
+int main()
+{
+	//integer type 
+	queu<int> s1;
+	clock_t start,end;
+	start = clock();
+	s1.display();
+	end = clock();
+	cout << start << endl;
+	cout << endl;
+	s1.Enqueu(1);
+	s1.Enqueu(3);
+	s1.Enqueu(2);
+	cout << "peek value : " << s1.peek() << endl;
+	s1.display();
+	cout << endl;
+	cout << "Dequeud : " << s1.Dequeu() << endl;
+	s1.display();
+	cout << endl;
+	s1.Enqueu(3);
+	s1.Enqueu(2);
+	s1.display();
+	cout << endl;
+	cout << "peek value : " << s1.peek() << endl;
+	/*
+	start = clock();
+	s1.display();
+	end = clock();
+	cout << endl;
+	start = clock();
+	int a=0,b=0,c=0,d=0;
+	for (int i = 0; i < 1000; i++)
+	{
+		s1.display();
+	}
+	end = clock();
+	double t = (end - start) / (double)CLOCKS_PER_SEC;
+	cout << t << endl;
+	*/
+	int timeQuantum, cpuTime;
+	cout << "Enter the execution time of cpu and time quantum(time slice) : ";
+	cin >> cpuTime >>timeQuantum;
+	system("pause");
+	return 0;
+}
