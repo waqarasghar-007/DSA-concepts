@@ -1,0 +1,19 @@
+University of Central Punjab 
+ 
+Data Structures and Algorithms 
+ 
+Graded Lab 02 
+  
+ 
+Task: 
+ 
+Write a function to evaluate a postfix expression using a stack. The postfix expression is given as a string, where operators and operands are separated by spaces.
+ For example
+
+Input  = 5 3 +
+Output is: 8
+ 
+Input = 4 5 6 * +
+Output is: 34
+ 
+
