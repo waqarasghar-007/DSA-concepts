@@ -1,0 +1,46 @@
+Symbol Table
+Symbol tables are data structures that store key-value pairs, allowing efficient lookup, insertion, and
+deletion operations based on the keys. They are commonly used in programming languages, compilers,
+interpreters, and various other applications where symbols such as variables, functions, or identifiers
+need to be stored and accessed.
+A Binary Search Tree (BST) is one of the popular implementations for symbol tables. In this approach,
+each key-value pair is stored as a node in the BST. The keys are used to organize and search the symbol
+table, while the values hold the associated information or data.
+Here's how symbol tables can be implemented using a BST:
+1. Define the structure for the BST node: Each node in the BST will have fields to store the key,
+value, and references to its left and right child nodes.
+2. Create an empty BST: Initialize the root of the BST as null, indicating an empty symbol table.
+3. Insertion: To insert a new key-value pair into the symbol table, perform the following steps:
+a. Start from the root node.
+b. If the tree is empty, create a new node with the given key-value pair and set it as the
+root.
+c. If the key is smaller than the current node's key, move to the left subtree. If the left
+child is null, create a new node with the given key-value pair and set it as the left child. If
+not null, continue to the left subtree.
+d. If the key is larger than the current node's key, move to the right subtree. If the right
+child is null, create a new node with the given key-value pair and set it as the right child.
+If not null, continue to the right subtree.
+e. Repeat steps c and d until an empty spot is found for insertion.
+4. Searching: To search for a key in the symbol table, follow these steps:
+a. Start from the root node.
+b. If the tree is empty or the current node's key matches the search key, return the
+corresponding value.
+c. If the search key is smaller than the current node's key, move to the left subtree and
+repeat the search process.
+d. If the search key is larger than the current node's key, move to the right subtree and
+repeat the search process.
+e. Repeat steps c and d until a match is found or a null node is reached, indicating that the
+key is not present in the symbol table.
+5. Deletion: To remove a key-value pair from the symbol table, perform the following steps:
+a. Find the node with the given key using the search process described above.
+b. If the key is not found, the deletion operation terminates.
+c. If the node to be deleted is a leaf node, simply remove it from the tree.
+d. If the node to be deleted has only one child, bypass the node by replacing it with its
+child.
+e. If the node to be deleted has two children, find the successor node (the node with the
+next highest key) by going to the right subtree and then as far left as possible. Replace
+the node to be deleted with the successor node, and delete the successor node from its
+original location.
+By implementing symbol tables using a BST, you can achieve efficient lookup, insertion, and deletion
+operations with an average time complexity of O (log n), where n is the number of key-value pairs stored
+in the symbol table.
