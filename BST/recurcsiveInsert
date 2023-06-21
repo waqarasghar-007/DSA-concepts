@@ -1,0 +1,25 @@
+void insertRecursively(Node* temp, Node* dataNode)
+	{
+		if (!temp)
+		{
+			return;
+		}
+		if (temp->getData() > dataNode->getData() && temp->getLeft()!=NULL)
+		{
+			insertRecursively(temp->getLeft(),dataNode);
+		}
+		else if (temp->getData() > dataNode->getData() && temp->getLeft() == NULL)
+		{
+			temp->setLeft(dataNode);
+		}
+		else if (temp->getData() < dataNode->getData() && temp->getRight() != NULL)
+		{
+			insertRecursively(temp->getRight(), dataNode);
+		}
+		else if (temp->getData() < dataNode->getData() && temp->getRight() == NULL)
+		{
+			temp->setRight(dataNode);
+		}
+		
+
+	}
