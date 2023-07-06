@@ -1,0 +1,53 @@
+Student Name: Waqar Asghar	L1S21BSSE0119
+Course: DSA
+Course-Instructor: Zeeshan Khan
+
+Project Title: Contact Management System
+
+1. Introduction:
+The Contact Management System is a program designed to assist users in storing and managing their contacts efficiently. It provides features such as contact storage, search, modification, undo/redo functionality, and call history tracking. The system utilizes various data structures, including ArrayList or linked list for contact storage, a stack for undo/redo operations, and a queue for call history management. The project aims to apply the concepts of data structures and algorithms using C++.
+
+2. Features:
+The Contact Management System will include the following key features:
+
+2.1 Contact Storage:
+Users can create and store contacts with attributes such as name, phone number, email, and address.
+Contacts will be stored in an ArrayList or linked list data structure, allowing for efficient retrieval and modification.
+
+2.2 Search and Modification:
+Users can search for specific contacts by name, phone number, or email.
+The system will provide options to modify or delete existing contacts.
+
+2.3 Undo/Redo Functionality:
+Implement an undo/redo mechanism using a stack data structure.
+Users can revert changes made to contacts, such as addition, modification, or deletion, by utilizing the undo feature.
+The redo feature allows users to reapply previously undone changes.
+
+2.4 Call History:
+Implement call history tracking using a queue.
+The system will record the details of each incoming and outgoing call, including the contact name, phone number, and call duration.
+Users can access and view their call history, sorted by date or contact name.
+
+3. User Interface:
+Design an intuitive and user-friendly interface for the Contact Management System. The interface should include the following elements:
+
+Menu options for various operations, such as adding a contact, searching, modifying, and viewing call history.
+Input forms to capture contact details during contact creation or modification.
+Display screens to show search results, contact details, and call history.
+
+4. Implementation Details:
+4.1 Data Structures:
+Use an ArrayList or linked list to store contacts. Both options provide efficient insertion, deletion, and search operations, allowing users to manage their contacts effectively.
+Implement a stack data structure to support undo/redo functionality. The stack will store the previous states of the contacts, enabling users to revert changes or reapply them as needed.
+Use a queue data structure to store call history entries. The queue will maintain the order of incoming and outgoing calls, allowing users to track their communication history.
+
+4.2 Algorithms:
+Implement search algorithms, such as linear search or binary search, to locate contacts based on name, phone number, or email.
+Utilize stack operations for undoing and redoing changes made to contacts.
+Implement queue operations for managing call history entries, including enqueuing and dequeuing.
+
+5. Testing:
+Develop comprehensive test cases to validate the functionality and performance of the Contact Management System. Test scenarios should cover various operations, including contact creation, modification, search, undo/redo, and call history tracking. Perform both functional and boundary testing to ensure the system handles different input scenarios accurately.
+
+6. Conclusion:
+The Contact Management System project aims to demonstrate a practical application of data structures and algorithms in a real-world scenario. By implementing an ArrayList or linked list, stack, queue, and incorporating relevant algorithms, the system enables efficient contact storage, modification, and call history management. 
